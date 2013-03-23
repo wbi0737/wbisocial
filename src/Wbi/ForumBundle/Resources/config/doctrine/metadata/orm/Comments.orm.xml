@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Comments" table="comments">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="commentAutheur" type="string" column="comment_autheur" length="45" nullable="true"/>
+    <field name="commentAutheurEmail" type="string" column="comment_autheur_email" length="45" nullable="true"/>
+    <field name="commentDate" type="datetime" column="comment_date" nullable="true"/>
+    <field name="commentContent" type="text" column="comment_content" nullable="true"/>
+    <many-to-one field="posts" target-entity="Posts">
+      <join-columns>
+        <join-column name="posts_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

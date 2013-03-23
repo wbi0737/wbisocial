@@ -1,0 +1,133 @@
+{% extends "WbiForumBundle::layout.html.twig" %}
+
+{% block wbiforum_body %}
+     <ul class="breadcrumb">
+        <li><a href="#">{{ entity.domain.label }}</a> <span class="divider">/</span></li>
+        <li><a href="#">{{ entity.label }}</a> <span class="divider">/</span></li>
+        <li class="active">Articles</li>
+     </ul>
+<caption>
+    <h4>Liste des Articles</h4>
+</caption>
+<div class="row-fluid">
+{% for post in entity.posts %}
+ 
+    <div id="post_username" class="span2">{{ post.user.username }}</div>    
+    <div class="span10">
+        <div id="post-title">{{ post.postTitle }}</div>
+        <div id="post-content">{{ post.postContent }}</div>
+    </div>
+    <hr />
+   
+    <div class="row-fluid">
+       <div class="span8 offset2"> 
+            <div id="comments-{{post.id}}" class="comments">
+        {% for comments in post.comments %}
+    
+            <dl class="dl-horizontal">
+                <dt>
+                    <div id="comment-username">{{ comments.user.username }}</div>
+                    
+                </dt>
+                <dd>
+                    <div id="comment-content">{{ comments.commentContent }}</div>
+                </dd>
+                <dd>
+                    
+                    <div id="comment-details"> {{ comments.commentDate|date('Y-m-d H:i:s') }}</div>
+                </dd>
+           </dl> 
+                    <hr />
+             {% endfor %} 
+            
+    </div>
+       <input id="input-add-comment-{{post.id}}" class="input-add-comment" value="ajouter une commentaire" />
+                <a href="javascript:void(0)" id="ajouter-commentaire-{{ post.id }}">ajouter</a>        
+     </div>
+   </div> 
+     
+<script type="text/javascript">
+    $(document).ready(function() {
+commentProcess('{{ post.id }}', '{{ app.user.id }}');
+});
+    </script>
+    {% endfor %}
+</div> 
+
+ <script type="text/javascript">
+     
+     function commentProcess(post_id, user_id){
+         
+     $("input#input-add-comment-"+post_id).focus(function(){
+              $(this).val("");
+              });
+        $("a#ajouter-commentaire-"+post_id).click(function(){
+           var comment = $("input#input-add-comment-"+post_id).val(); 
+
+          $.ajax({
+              url: '{{ path("comments_create") }}',
+              data: "comment="+comment+"&post_id="+post_id+"&user_id="+user_id,
+              dataType: "json",
+              success: function(data){
+                
+                var element = "<dl class='dl-horizontal'>" +
+                        "<dt>" +
+                         "<div id='comment-username'>"+data.username+"</div>" +
+                          "<div id='comment-content'>"+data.comment+"</div>" +
+                           "</dt>" +
+                            "<dd>" +
+                             "<div id='comment-details'>"+data.commentDate+"</div>" +
+                             "</dd>"+
+                             "</dl>";
+                       
+                $("#comments-"+post_id).append(element);
+                $("input#input-add-comment-"+post_id).val("ajouter un commentaire");
+              },
+              complete: function(){
+               
+                
+                
+              },
+              beforeSend: function(){
+
+              }
+          })
+        });
+    }
+    </script>
+
+<style type="text/css">
+#post-title{
+font-size: 18px;
+font-style: bold;
+margin-left: 250px;
+}
+#post_username{
+text-align: center; 
+}
+#post-content{
+color: rgb(167, 85, 85);
+font-size: 18px;
+line-height: 1.38;
+text-align: left;
+}
+.comments{
+background-color: #edeff4;
+margin-top: 1px;
+padding: 4px;
+}
+#comment-content{
+font-size: 11px;
+line-height: 1.38;
+}    
+#comment-details{
+font-style: italic;
+text-align: right;
+font-size: 11px;
+}
+#comment-username{
+text-align: left;
+
+}
+    </style>
+{% endblock %}

@@ -1,0 +1,230 @@
+<?php
+
+namespace Wbi\ForumBundle\Entity;
+use Wbi\UserBundle\Entity\user;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Wbi\ForumBundle\Entity\Comments
+ *
+ * @ORM\Table(name="comments")
+ * @ORM\Entity
+ */
+class Comments
+{
+    /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string $commentAutheur
+     *
+     * @ORM\Column(name="comment_autheur", type="string", length=45, nullable=true)
+     */
+    private $commentAutheur;
+
+    /**
+     * @var string $commentAutheurEmail
+     *
+     * @ORM\Column(name="comment_autheur_email", type="string", length=45, nullable=true)
+     */
+    private $commentAutheurEmail;
+
+    /**
+     * @var \DateTime $commentDate
+     *
+     * @ORM\Column(name="comment_date", type="datetime", nullable=true)
+     */
+    private $commentDate;
+
+    /**
+     * @var string $commentContent
+     *
+     * @ORM\Column(name="comment_content", type="text", nullable=true)
+     */
+    private $commentContent;
+
+    /**
+     * @var Posts
+     *
+     * @ORM\ManyToOne(targetEntity="Posts", inversedBy="comments")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="posts_id", referencedColumnName="id")
+     * })
+     */
+    private $posts;
+
+  /**
+   * @ORM\ManyToOne(targetEntity="Wbi\UserBundle\Entity\user")
+   * @ORM\JoinColumn(nullable=false)
+   */
+   private $user;
+   
+   
+   /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->commentDate = new \DateTime();
+    }
+    
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set commentAutheur
+     *
+     * @param string $commentAutheur
+     * @return Comments
+     */
+    public function setCommentAutheur($commentAutheur)
+    {
+        $this->commentAutheur = $commentAutheur;
+    
+        return $this;
+    }
+
+    /**
+     * Get commentAutheur
+     *
+     * @return string 
+     */
+    public function getCommentAutheur()
+    {
+        return $this->commentAutheur;
+    }
+
+    /**
+     * Set commentAutheurEmail
+     *
+     * @param string $commentAutheurEmail
+     * @return Comments
+     */
+    public function setCommentAutheurEmail($commentAutheurEmail)
+    {
+        $this->commentAutheurEmail = $commentAutheurEmail;
+    
+        return $this;
+    }
+
+    /**
+     * Get commentAutheurEmail
+     *
+     * @return string 
+     */
+    public function getCommentAutheurEmail()
+    {
+        return $this->commentAutheurEmail;
+    }
+
+    /**
+     * Set commentDate
+     *
+     * @param \DateTime $commentDate
+     * @return Comments
+     */
+    public function setCommentDate($commentDate)
+    {
+        $this->commentDate = $commentDate;
+    
+        return $this;
+    }
+
+    /**
+     * Get commentDate
+     *
+     * @return \DateTime 
+     */
+    public function getCommentDate()
+    {
+        return $this->commentDate;
+    }
+
+    /**
+     * Set commentContent
+     *
+     * @param string $commentContent
+     * @return Comments
+     */
+    public function setCommentContent($commentContent)
+    {
+        $this->commentContent = $commentContent;
+    
+        return $this;
+    }
+
+    /**
+     * Get commentContent
+     *
+     * @return string 
+     */
+    public function getCommentContent()
+    {
+        return $this->commentContent;
+    }
+
+    /**
+     * Set posts
+     *
+     * @param Wbi\ForumBundle\Entity\Posts $posts
+     * @return Comments
+     */
+    public function setPosts(\Wbi\ForumBundle\Entity\Posts $posts = null)
+    {
+        $this->posts = $posts;
+    
+        return $this;
+    }
+
+    /**
+     * Get posts
+     *
+     * @return Wbi\ForumBundle\Entity\Posts 
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+
+   
+
+
+
+
+    /**
+     * Set user
+     *
+     * @param Wbi\UserBundle\Entity\user $user
+     * @return Comments
+     */
+    public function setUser(\Wbi\UserBundle\Entity\user $user)
+    {
+        $this->user = $user;
+    
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return Wbi\UserBundle\Entity\user 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+}

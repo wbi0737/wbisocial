@@ -1,0 +1,50 @@
+{% extends "WbiForumBundle::layout.html.twig" %}
+
+{% block wbiforum_body %}
+
+<h1>Posts list</h1>
+
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Posttitle</th>
+            <th>Postautheur</th>
+            <th>Postcontent</th>
+            <th>Postdate</th>
+            <th>Username</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for post in entities %}
+        <tr>
+            <td><a href="{{ path('posts_show', { 'id': post.id }) }}">{{ post.id }}</a></td>
+            <td>{{ post.postTitle }}</td>
+            <td>{{ post.postAutheur }}</td>
+            <td>{{ post.postContent }}</td>
+            <td>{% if post.postDate %}{{ post.postDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td>{{ post.user.username }}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('posts_show', { 'id': post.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('posts_edit', { 'id': post.id }) }}">edit</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<ul>
+    <li>
+        <a href="{{ path('posts_new') }}">
+            Create a new entry
+        </a>
+    </li>
+</ul>
+  {% endblock %}
