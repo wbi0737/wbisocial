@@ -1,5 +1,5 @@
 <?php
-//test
+//testtttt
 namespace Wbi\ForumBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
